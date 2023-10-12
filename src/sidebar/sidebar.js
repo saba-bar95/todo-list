@@ -2,6 +2,7 @@ import "./sidebar.css";
 import leftSvg from "/src/icons/arrow-left.svg";
 import plusSvg from "/src/icons/plus-box.svg";
 import downSvg from "/src/icons/arrow-down.svg";
+import newProject from "./newproject/ newProject";
 
 let sidebarDiv;
 let leftIcon;
@@ -32,11 +33,13 @@ export function sidebar() {
       leftIcon = new Image();
       leftIcon.src = leftSvg;
       leftIcon.classList.add("sidebar-icon", "left-icon");
+      leftIcon.setAttribute("title", "Collapse Projects");
       rightSide.appendChild(leftIcon);
 
       plusIcon = new Image();
       plusIcon.src = plusSvg;
       plusIcon.classList.add("sidebar-icon", "plus-icon");
+      plusIcon.setAttribute("title", "Add new project");
       rightSide.appendChild(plusIcon);
     }
   });
@@ -55,8 +58,17 @@ export function sidebar() {
 
   leftIcon.addEventListener("click", function () {
     projectContainer.classList.toggle("hidden");
-    if (projectContainer.classList.contains("hidden")) leftIcon.src = downSvg;
-    else leftIcon.src = leftSvg;
+    if (projectContainer.classList.contains("hidden")) {
+      leftIcon.src = downSvg;
+      leftIcon.setAttribute("title", "Expand Projects");
+    } else {
+      leftIcon.setAttribute("title", "Collapse Projects");
+      leftIcon.src = leftSvg;
+    }
+  });
+
+  plusIcon.addEventListener("click", function () {
+    newProject();
   });
 
   sidebarDiv.appendChild(nav);
