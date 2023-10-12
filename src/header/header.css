@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "MondayRain";
+  src: url(/src/fonts/monday-rain-font/MondayRain-MVn8r.ttf);
+}
+
+#header-div {
+  background-color: #ffb766;
+  grid-column: 1/-1;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#header-div .header-rightside {
+  display: flex;
+  gap: 12px;
+}
+
+#header-div .header-icon {
+  width: 30px;
+}
+
+#header-div .header-icon:hover {
+  cursor: pointer;
+}
+
+#header-div .header-text {
+  font-family: "MondayRain";
+  color: #475569;
+}
