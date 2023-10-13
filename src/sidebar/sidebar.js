@@ -7,6 +7,7 @@ import newProject from "./newproject/ newProject";
 let sidebarDiv;
 let leftIcon;
 let plusIcon;
+let createProjectItem;
 
 export function sidebar() {
   sidebarDiv = document.createElement("div");
@@ -49,11 +50,15 @@ export function sidebar() {
 
   const projectItems = ["work", "home", "gym"];
 
-  projectItems.forEach((el) => {
+  createProjectItem = function (el) {
     const projectItem = document.createElement("li");
     projectItem.classList.add("nav-item", "project-item");
     projectItem.textContent = el;
     projectContainer.appendChild(projectItem);
+  };
+
+  projectItems.forEach((el) => {
+    createProjectItem(el);
   });
 
   leftIcon.addEventListener("click", function () {
@@ -78,3 +83,4 @@ export function sidebar() {
 }
 
 export { sidebarDiv };
+export { createProjectItem };

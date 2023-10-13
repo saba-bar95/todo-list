@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Fontspring";
+  src: url(/src/fonts/fontspring/Fontspring-DEMO-oktah_regular_italic-BF651105f83b382.otf);
+}
+
 #new-project {
   position: fixed;
   top: 0;
@@ -8,11 +13,61 @@
 }
 
 #new-project .new-project-container {
+  padding: 30px;
   width: 50%;
-  height: 50%;
+  height: 40%;
   background-color: aliceblue;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 4%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#new-project .new-project-header {
+  font-family: "Fontspring";
+  text-align: center;
+  font-size: 1.7em;
+  color: #475569;
+  border-bottom: 1px solid #a1a1aa;
+  padding-bottom: 10px;
+}
+
+#new-project label {
+  font-family: "Fontspring";
+  font-size: 1.2em;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+#new-project span {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: red;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+#new-project input {
+  width: 70%;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #a1a1aa;
+}
+
+#new-project .newproject-btn {
+  padding: 10px 20px;
+  background-color: #475569;
+  align-self: start;
+  border: none;
+  border-radius: 20%;
+  font-family: "Fontspring";
+  font-size: 1em;
+  color: #e4e4e7;
+}
+
+#new-project .newproject-btn:hover {
+  cursor: pointer;
 }
