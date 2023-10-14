@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Fontspring";
+  src: url(/src/fonts/fontspring/Fontspring-DEMO-oktah_regular_italic-BF651105f83b382.otf);
+}
+
+#delete-project {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#delete-project .delete-project-container {
+  padding: 30px;
+  width: 25%;
+  height: 30%;
+  background-color: aliceblue;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#delete-project .delete-project-header {
+  font-family: "Fontspring";
+  text-align: center;
+  font-size: 1.2em;
+  color: #475569;
+  padding-bottom: 10px;
+}
+
+#delete-project .btns-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#delete-project .delete-btn {
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
+
+#delete-project .delete-btn:hover {
+  border: none;
+  cursor: pointer;
+}
+
+#delete-project .yes-btn:hover {
+  background-color: #65a30d;
+}
+
+#delete-project .no-btn:hover {
+  background-color: #dc2626;
+}

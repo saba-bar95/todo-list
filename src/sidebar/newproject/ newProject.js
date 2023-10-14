@@ -1,6 +1,8 @@
 import "./newProject.css";
 import { body } from "../..";
 import { createProjectItem } from "../sidebar";
+import { projectItems } from "../sidebar";
+import { createContentProjectItem } from "../../content/createContent";
 
 export default function newProject() {
   body.style.overflow = "hidden";
@@ -37,13 +39,34 @@ export default function newProject() {
   addNewProjectBtn.classList.add("newproject-btn");
   newProjectContainer.appendChild(addNewProjectBtn);
 
+  function checkElement(element, array) {
+    return array.some(function (item) {
+      return item.toLowerCase() === element.toLowerCase();
+    });
+  }
+
   addNewProjectBtn.addEventListener("click", function () {
+    if (checkElement(newProjectName.value, projectItems)) {
+      alert("This project already exist");
+      newProjectName.value = "";
+      return;
+    }
+
     if (newProjectName.validity.valid) {
       createProjectItem(newProjectName.value);
+      projectItems.push(newProjectName.value);
       newProjectDiv.remove();
-    } else {
-      alert("Enter project name, please");
+      document.querySelector(
+        ".projects-qty"
+      ).textContent = `${projectItems.length} projets `;
+
+      createContentProjectItem(
+        newProjectName.value,
+        document.querySelector(".content-projects-container")
+      );
     }
+
+    if (!newProjectName.validity.valid) alert("Enter project name, please");
   });
 
   newProjectDiv.addEventListener("click", function (e) {

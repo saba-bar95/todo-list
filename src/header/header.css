@@ -13,7 +13,7 @@
 
 #header-div .header-rightside {
   display: flex;
-  gap: 12px;
+  gap: 15px;
 }
 
 #header-div .header-icon {
@@ -27,4 +27,5 @@
 #header-div .header-text {
   font-family: "MondayRain";
   color: #475569;
+  letter-spacing: 0.05em;
 }

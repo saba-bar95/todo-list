@@ -2,12 +2,16 @@ import "./sidebar.css";
 import leftSvg from "/src/icons/arrow-left.svg";
 import plusSvg from "/src/icons/plus-box.svg";
 import downSvg from "/src/icons/arrow-down.svg";
+import deleteSvg from "/src/icons/delete.svg";
 import newProject from "./newproject/ newProject";
+import deleteProject from "./deleteproject/deleteProject";
 
 let sidebarDiv;
 let leftIcon;
 let plusIcon;
 let createProjectItem;
+let navItemDivs = [];
+let projectItems;
 
 export function sidebar() {
   sidebarDiv = document.createElement("div");
@@ -20,13 +24,11 @@ export function sidebar() {
 
   navItems.forEach((el) => {
     const navItem = document.createElement("li");
-    navItem.classList.add("nav-item");
+    navItem.classList.add("nav-item", `nav-item-${el}`);
     navItem.textContent = el;
     nav.appendChild(navItem);
 
     if (el === "projects") {
-      navItem.classList.add("nav-item-project");
-
       const rightSide = document.createElement("div");
       rightSide.classList.add("projects-rightside");
       navItem.appendChild(rightSide);
@@ -43,18 +45,39 @@ export function sidebar() {
       plusIcon.setAttribute("title", "Add new project");
       rightSide.appendChild(plusIcon);
     }
+
+    navItemDivs.push(navItem);
   });
 
   const projectContainer = document.createElement("ul");
   projectContainer.classList.add("projects-container");
 
-  const projectItems = ["work", "home", "gym"];
+  projectItems = ["work", "home", "gym"];
 
   createProjectItem = function (el) {
     const projectItem = document.createElement("li");
-    projectItem.classList.add("nav-item", "project-item");
+    projectItem.classList.add("nav-item", "project-item", `project-item-${el}`);
     projectItem.textContent = el;
     projectContainer.appendChild(projectItem);
+    navItemDivs.push(projectItem);
+
+    const deleteIcon = new Image();
+    deleteIcon.src = deleteSvg;
+    deleteIcon.classList.add("sidebar-icon", "hidden");
+    deleteIcon.style.float = "right";
+    projectItem.appendChild(deleteIcon);
+
+    projectItem.addEventListener("mouseenter", function () {
+      deleteIcon.classList.toggle("hidden");
+    });
+
+    projectItem.addEventListener("mouseleave", function () {
+      deleteIcon.classList.toggle("hidden");
+    });
+
+    deleteIcon.addEventListener("click", function () {
+      deleteProject(deleteIcon);
+    });
   };
 
   projectItems.forEach((el) => {
@@ -82,5 +105,6 @@ export function sidebar() {
   return sidebarDiv;
 }
 
-export { sidebarDiv };
+export { sidebarDiv, navItemDivs };
 export { createProjectItem };
+export { projectItems };

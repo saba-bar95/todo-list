@@ -1,5 +1,91 @@
+@font-face {
+  font-family: "Frenstyle";
+  src: url("/src/fonts/frenstyle/Frenstyle-BF6524edc01dc16.otf");
+}
+
+@font-face {
+  font-family: "Matcha-Serif";
+  src: url("/src/fonts/matcha-serif/matchaserif-regular.otf");
+}
+
 #content-div {
   grid-column: 2/-1;
   grid-row: 2/-1;
-  background-color: yellow;
+  background-color: #fafafa;
+  padding: 30px;
+}
+
+#content-div .hidden {
+  display: none !important;
+}
+
+#content-div .content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#content-div .content-header {
+  width: 50%;
+  color: #020617;
+  letter-spacing: 0.07em;
+  font-size: 1.2em;
+  font-family: "Frenstyle", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  text-transform: capitalize;
+  text-align: center;
+  border-bottom: 1px solid #a1a1aa;
+  padding-bottom: 20px;
+}
+
+#content-div .content-icon {
+  width: 25px;
+}
+
+#content-div .add-task-div {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+#content-div .add-task-text {
+  font-family: "Frenstyle", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 0.9em;
+  opacity: 0.5;
+}
+
+#content-div .add-task-div:hover .add-task-text {
+  opacity: 1;
+  color: #dc2626;
+}
+
+#content-div .add-task-div:hover {
+  cursor: pointer;
+}
+
+#content-div .projects-qty {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 1.2em;
+}
+
+#content-div .content-projects-container {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#content-div .content-project-item {
+  text-transform: capitalize;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 1em;
+}
+
+#content-div .content-project-item:hover {
+  cursor: pointer;
 }

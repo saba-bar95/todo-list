@@ -6,7 +6,7 @@
 #sidebar-div {
   grid-column: 1/1;
   grid-row: 2/-1;
-  background-color: #fafafa;
+  background-color: #f1f5f9;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -27,11 +27,21 @@
     sans-serif;
   color: #404040;
   font-weight: 600;
-
   letter-spacing: 0.05em;
+  padding: 2px;
 }
 
-#sidebar-div .nav-item-project {
+#sidebar-div .nav-item:hover {
+  translate: 3px;
+  background-color: #ffb766;
+  cursor: pointer;
+}
+
+#sidebar-div .selected {
+  background-color: #ffb766;
+}
+
+#sidebar-div .nav-item-projects {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,7 +64,6 @@
 
 #sidebar-div .project-item {
   list-style: initial;
-  color: #404040;
   color: #475569;
 }
 
