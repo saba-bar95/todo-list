@@ -1,6 +1,8 @@
 import { navItemDivs } from "../sidebar/sidebar";
 import { contents, contentDiv } from "./content";
 import { projectItems } from "../sidebar/sidebar";
+import { taskContent } from "./taskcontent/taskContent";
+import createSelectOption from "./taskcontent/createSelectOption";
 import plusSvg from "/src/icons/plus-box.svg";
 
 const createContentProjectItem = function (item, projectsContainer) {
@@ -19,6 +21,7 @@ const createContentProjectItem = function (item, projectsContainer) {
 
 export function createContent(item) {
   let projecstsQty;
+
   if (item.classList.contains("sidebar-icon")) return;
 
   if (item.closest(".nav-item")) {
@@ -87,6 +90,25 @@ export function createContent(item) {
     addTaskText.classList.add("add-task-text");
     addTaskText.textContent = "Add task";
     addTaskDiv.appendChild(addTaskText);
+
+    const taskItemsContainer = document.createElement("ul");
+    taskItemsContainer.classList.add("task-items-container");
+    contentContainer.appendChild(taskItemsContainer);
+
+    const selectOption = document.querySelector(".select-project");
+
+    addTaskDiv.addEventListener("click", function (e) {
+      taskContent();
+
+      if (e.target.tagName === "DIV")
+        createSelectOption(e.target.previousSibling, selectOption);
+
+      if (e.target.tagName === "IMG" || e.target.tagName === "P")
+        createSelectOption(
+          e.target.parentElement.previousSibling,
+          selectOption
+        );
+    });
   }
 }
 

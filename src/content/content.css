@@ -84,8 +84,210 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 1em;
+  padding: 10px;
 }
 
 #content-div .content-project-item:hover {
   cursor: pointer;
+  background-color: #ffb766;
+  font-weight: 700;
+}
+
+#content-div .task-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#content-div .task-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  position: relative;
+}
+
+#content-div .task-item:hover {
+  cursor: pointer;
+  padding: 5px;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+}
+
+#content-div .selected {
+  border: 2px solid #737373;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: auto;
+}
+
+#content-div .mouseentered {
+  background-color: #d1d5db;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#content-div .title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#content-div .task-item--title {
+  font-family: "Frenstyle";
+  text-transform: capitalize;
+  font-size: 0.9em;
+  outline: none;
+}
+
+#content-div .task-title-before {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  display: block;
+}
+
+#content-div .task-date-container {
+  display: flex;
+  gap: 8px;
+  outline: none;
+}
+
+#content-div .task-date-para {
+  font-family: "Frenstyle";
+  font-size: 0.85em;
+  outline: none;
+  color: #1f2937;
+}
+
+#content-div .editable-item:focus {
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+
+#content-div .task-description-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#content-div .task-item--description {
+  font-family: "Frenstyle";
+  font-size: 0.85em;
+  display: inline;
+  vertical-align: middle;
+  color: #737373;
+  outline: none;
+}
+
+#content-div .task-date-para {
+  outline: none;
+}
+
+#content-div .task-priority {
+  font-family: "Frenstyle";
+  border: 1px solid #64748b;
+  padding: 3px;
+  border-radius: 5px;
+  display: inline;
+  font-size: 0.75em;
+}
+
+#content-div .task-item--rightside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#content-div .task-item--leftside {
+  display: flex;
+  gap: 12px;
+  align-items: start;
+}
+
+#content-div .task-icon {
+  vertical-align: middle;
+  width: 15px;
+}
+
+#content-div .edit-icon,
+#content-div .delete-icon,
+#content-div .dots-icon {
+  cursor: pointer;
+  width: 20px;
+}
+
+#content-div .editable {
+  border: 1px solid black;
+  padding: 10px 10px 10px 15px;
+  border-radius: 5px;
+}
+
+#content-div .date-container {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+
+#content-div .date-container:hover {
+  caret-color: #dc2626;
+}
+
+#content-div .datepicker-toggle {
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 19px;
+}
+
+#content-div .datepicker-toggle-button {
+  position: absolute;
+  left: -2px;
+  top: 2px;
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/icons/calendar-range.svg");
+  background-repeat: no-repeat;
+  width: 20px;
+}
+
+#content-div .datepicker-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#content-div .datepicker-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+#content-div .datetext-input {
+  border: none;
+  outline: none;
+  color: #737373;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 0.9em;
+  background: none;
+  font-weight: 700;
+}
+
+#content-div .new-priority {
+  font-family: "Frenstyle";
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 0.8em;
+  width: 60%;
+  letter-spacing: 0.05em;
+  font-weight: 700;
 }

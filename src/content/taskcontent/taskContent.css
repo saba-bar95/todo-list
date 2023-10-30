@@ -1,0 +1,192 @@
+@font-face {
+  font-family: "Frenstyle";
+  src: url("/src/fonts/frenstyle/Frenstyle-BF6524edc01dc16.otf");
+}
+
+#task-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#task-content .task-container {
+  padding: 5px;
+  width: 40%;
+  height: 35%;
+  background-color: aliceblue;
+  position: fixed;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4%;
+  box-shadow: 0 26px 58px 0 rgba(0, 0, 0, 0.22),
+    0 5px 14px 0 rgba(0, 0, 0, 0.18);
+}
+
+#task-content .task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 3px;
+}
+#task-content .task-form:focus {
+  border: none;
+}
+
+#task-content .task-name,
+.task-description {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  width: 100%;
+  border: none;
+  background-color: aliceblue;
+  letter-spacing: 0.05em;
+  padding: 3px;
+  outline: none;
+}
+
+#task-content .task-name {
+  font-size: 1.3em;
+}
+
+#task-content .task-description {
+  font-size: 1.1em;
+}
+
+#task-content .date-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 31%;
+  border: 1px solid #6b7280;
+  padding: 3px;
+  border-radius: 3%;
+}
+
+#task-content .date-container:hover {
+  cursor: pointer;
+  background-color: #e2e8f0;
+}
+
+#task-content .date-text {
+  font-size: 0.9em;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+#task-content .task-icon {
+  width: 20px;
+}
+
+#task-content .wrapper-div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border-bottom: 1px solid #64748b;
+  padding-bottom: 15px;
+}
+
+#task-content input[type="date"] {
+  background-color: #cbd5e1;
+  padding: 5px;
+  color: #64748b;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 0.9em;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+::-webkit-calendar-picker-indicator {
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#task-content .priority-select {
+  background-color: #cbd5e1;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 0.9em;
+}
+
+#task-content .select-project {
+  border: 1px solid black;
+}
+
+#task-content .select-project,
+.cancel-btn,
+.add-btn {
+  align-self: start;
+  text-transform: capitalize;
+  padding: 3px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+#task-content .select-project:hover {
+  background-color: #cbd5e1;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+
+#task-content .last-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#task-content .btn-container {
+  display: flex;
+  gap: 13px;
+}
+
+#task-content .cancel-btn {
+  font-weight: 700;
+  border-radius: 6px;
+  border: none;
+  background: #6e6d70;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1),
+    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5),
+    0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+  color: #dfdedf;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+#task-content .cancel-btn:hover {
+  box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
+    0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
+
+#task-content .add-btn {
+  font-weight: 700;
+  cursor: pointer;
+  padding: 5px 15px;
+  background-color: #ffe7e7;
+  border: 1px solid #dc2626;
+  border-radius: 11px;
+  color: #d33a2c;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#task-content .add-btn:active {
+  background-color: #d33a2c;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+  color: #ffffff;
+}
+
+#task-content .add-btn:hover {
+  border: 2px solid #dc2626;
+}

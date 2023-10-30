@@ -42,6 +42,7 @@ export default function deleteProject(deleteIcon) {
   }
 
   yesBtn.addEventListener("click", function () {
+    body.style.overflow = "auto";
     deleteIcon.parentElement.remove();
     deleteProject.remove();
     createContent(document.querySelector(".nav-item-inbox"));
@@ -65,6 +66,7 @@ export default function deleteProject(deleteIcon) {
 
   noBtn.addEventListener("click", function () {
     deleteProject.remove();
+    body.style.overflow = "auto";
   });
 
   deleteProject.addEventListener("click", function (e) {
