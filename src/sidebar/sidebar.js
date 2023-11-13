@@ -12,6 +12,7 @@ let plusIcon;
 let createProjectItem;
 let navItemDivs = [];
 let projectItems;
+let projectItemsArr = [];
 
 export function sidebar() {
   sidebarDiv = document.createElement("div");
@@ -19,15 +20,35 @@ export function sidebar() {
 
   const nav = document.createElement("ul");
   nav.classList.add("sidebar-nav");
+  sidebarDiv.appendChild(nav);
 
   const navItems = ["inbox", "today", "projects"];
 
   navItems.forEach((el) => {
     const navItem = document.createElement("li");
     navItem.classList.add("nav-item", `nav-item-${el}`);
-    navItem.textContent = el;
     nav.appendChild(navItem);
 
+    const projectName = document.createElement("p");
+    projectName.classList.add("project-name");
+    projectName.textContent = el;
+    navItem.appendChild(projectName);
+
+    if (el !== "projects") {
+      navItemDivs.push(navItem);
+      const navSpan = document.createElement("span");
+      navSpan.classList.add("nav-span", "hidden");
+      navSpan.textContent = 0;
+      navItem.appendChild(navSpan);
+
+      navItem.addEventListener("mouseover", function () {
+        navSpan.classList.toggle("hidden");
+      });
+
+      navItem.addEventListener("mouseleave", function () {
+        navSpan.classList.toggle("hidden");
+      });
+    }
     if (el === "projects") {
       const rightSide = document.createElement("div");
       rightSide.classList.add("projects-rightside");
@@ -44,22 +65,45 @@ export function sidebar() {
       plusIcon.classList.add("sidebar-icon", "plus-icon");
       plusIcon.setAttribute("title", "Add new project");
       rightSide.appendChild(plusIcon);
-    }
 
-    navItemDivs.push(navItem);
+      leftIcon.addEventListener("click", function () {
+        projectContainer.classList.toggle("hidden");
+        if (projectContainer.classList.contains("hidden")) {
+          leftIcon.src = downSvg;
+          leftIcon.setAttribute("title", "Expand Projects");
+        } else {
+          leftIcon.setAttribute("title", "Collapse Projects");
+          leftIcon.src = leftSvg;
+        }
+      });
+
+      plusIcon.addEventListener("click", function () {
+        newProject();
+      });
+    }
   });
 
   const projectContainer = document.createElement("ul");
   projectContainer.classList.add("projects-container");
+  sidebarDiv.appendChild(projectContainer);
 
   projectItems = ["work", "home", "gym"];
 
   createProjectItem = function (el) {
     const projectItem = document.createElement("li");
     projectItem.classList.add("nav-item", "project-item", `project-item-${el}`);
-    projectItem.textContent = el;
     projectContainer.appendChild(projectItem);
     navItemDivs.push(projectItem);
+
+    const projectName = document.createElement("p");
+    projectName.classList.add("project-name");
+    projectName.textContent = el;
+    projectItem.appendChild(projectName);
+
+    const navSpan = document.createElement("span");
+    navSpan.classList.add("nav-span", "hidden");
+    navSpan.textContent = 0;
+    projectItem.appendChild(navSpan);
 
     const deleteIcon = new Image();
     deleteIcon.src = deleteSvg;
@@ -69,42 +113,32 @@ export function sidebar() {
 
     projectItem.addEventListener("mouseenter", function () {
       deleteIcon.classList.toggle("hidden");
+      navSpan.classList.toggle("hidden");
     });
 
     projectItem.addEventListener("mouseleave", function () {
       deleteIcon.classList.toggle("hidden");
+      navSpan.classList.toggle("hidden");
     });
 
     deleteIcon.addEventListener("click", function () {
       deleteProject(deleteIcon);
     });
+
+    projectItemsArr.push(projectItem);
   };
 
   projectItems.forEach((el) => {
     createProjectItem(el);
   });
 
-  leftIcon.addEventListener("click", function () {
-    projectContainer.classList.toggle("hidden");
-    if (projectContainer.classList.contains("hidden")) {
-      leftIcon.src = downSvg;
-      leftIcon.setAttribute("title", "Expand Projects");
-    } else {
-      leftIcon.setAttribute("title", "Collapse Projects");
-      leftIcon.src = leftSvg;
-    }
-  });
-
-  plusIcon.addEventListener("click", function () {
-    newProject();
-  });
-
-  sidebarDiv.appendChild(nav);
-  sidebarDiv.appendChild(projectContainer);
-
   return sidebarDiv;
 }
 
-export { sidebarDiv, navItemDivs };
-export { createProjectItem };
-export { projectItems };
+export {
+  sidebarDiv,
+  navItemDivs,
+  createProjectItem,
+  projectItems,
+  projectItemsArr,
+};

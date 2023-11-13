@@ -13,9 +13,8 @@
 }
 
 #delete-project .delete-project-container {
-  padding: 30px;
-  width: 25%;
-  height: 30%;
+  padding: 20px 10px;
+  width: 18%;
   background-color: aliceblue;
   position: fixed;
   top: 50%;

@@ -2,9 +2,12 @@ import { body } from "../..";
 import "./taskContent.css";
 import createSelectOption from "./createSelectOption";
 import addTaskItem from "./addTaskItem";
+import { isToday } from "date-fns";
 
 let validateDate;
 let taskPriority;
+let counter = 0;
+let taskItem;
 
 export function taskContent() {
   const taskContent = document.createElement("div");
@@ -35,18 +38,16 @@ export function taskContent() {
   wrapperDiv.classList.add("wrapper-div");
   taskForm.appendChild(wrapperDiv);
 
+  const dateString = new Date().toISOString().slice(0, 10);
+
   const taskDate = document.createElement("input");
   taskDate.setAttribute("type", "date");
   taskDate.classList.add("task-date");
-  wrapperDiv.appendChild(taskDate);
-
-  const currentDate = new Date();
-  const dateString = currentDate.toISOString().slice(0, 10);
   taskDate.value = dateString;
+  wrapperDiv.appendChild(taskDate);
 
   validateDate = function (taskDate) {
     if (!taskDate) return true;
-
     if (taskDate < dateString) {
       alert("You cannot enter an old date. Please enter a valid date.");
       return false;
@@ -63,7 +64,6 @@ export function taskContent() {
     option.setAttribute("value", i);
     option.textContent = `Priority ${i}`;
     taskPriority.appendChild(option);
-
     if (i == 4) option.setAttribute("selected", "");
   }
 
@@ -78,7 +78,7 @@ export function taskContent() {
   const navItems = document.querySelectorAll(".nav-item");
 
   navItems.forEach((item) => {
-    createSelectOption(item, selectProject);
+    createSelectOption(item.querySelector("p").textContent, selectProject);
   });
 
   const btnContainer = document.createElement("div");
@@ -119,17 +119,17 @@ export function taskContent() {
     }
   });
 
-  const taskItem = function (title, description, dueDate, priority, notes) {
+  taskItem = function (title, description, dueDate, priority, project) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.notes = "";
-    this.checklist = false;
+    this.project = project;
   };
 
   addBtn.addEventListener("click", function () {
     if (taskForm.checkValidity() && validateDate(taskDate.value)) {
+      counter++;
       taskContent.remove();
       const contentItems = document.querySelectorAll(".content-container");
 
@@ -139,9 +139,19 @@ export function taskContent() {
             taskName.value,
             taskDescription.value,
             taskDate.value,
-            taskPriority.value
+            taskPriority.value,
+            selectProject.value
           );
-          addTaskItem(newTaskItem, el);
+          addTaskItem(newTaskItem, el, counter);
+
+          if (isToday(new Date(taskDate.value))) {
+            newTaskItem.project = "today";
+            addTaskItem(
+              newTaskItem,
+              document.querySelector(".content-today"),
+              counter
+            );
+          }
         }
       });
     }
@@ -152,4 +162,4 @@ export function taskContent() {
   });
 }
 
-export { validateDate, taskPriority };
+export { validateDate, taskPriority, taskItem };

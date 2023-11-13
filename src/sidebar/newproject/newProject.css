@@ -13,9 +13,7 @@
 }
 
 #new-project .new-project-container {
-  padding: 30px;
-  width: 50%;
-  height: 40%;
+  padding: 30px 20px;
   background-color: aliceblue;
   position: fixed;
   top: 50%;
@@ -58,11 +56,10 @@
 }
 
 #new-project .newproject-btn {
-  padding: 10px 20px;
+  padding: 5px 10px;
   background-color: #475569;
   align-self: start;
   border: none;
-  border-radius: 20%;
   font-family: "Fontspring";
   font-size: 1em;
   color: #e4e4e7;
@@ -70,4 +67,5 @@
 
 #new-project .newproject-btn:hover {
   cursor: pointer;
+  translate: 3px;
 }

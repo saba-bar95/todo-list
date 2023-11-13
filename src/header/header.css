@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "MondayRain";
-  src: url(/src/fonts/monday-rain-font/MondayRain-MVn8r.ttf);
+  font-family: "Flipkart";
+  src: url(/src/fonts/Flipkart/Riona-Sans-W01-Bold-Italic.ttf);
 }
 
 #header-div {
@@ -25,7 +25,6 @@
 }
 
 #header-div .header-text {
-  font-family: "MondayRain";
+  font-family: "Flipkart";
   color: #475569;
-  letter-spacing: 0.05em;
 }

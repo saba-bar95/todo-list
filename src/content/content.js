@@ -17,7 +17,10 @@ export function content() {
   createContent(document.querySelector(".nav-item-projects"));
 
   sidebarDiv.addEventListener("click", function (e) {
-    createContent(e.target);
+    if (e.target.classList.contains("sidebar-icon")) return;
+    if (e.target.tagName === "SPAN" || e.target.tagName === "P")
+      createContent(e.target.closest(".nav-item"));
+    else createContent(e.target);
   });
 
   return contentDiv;

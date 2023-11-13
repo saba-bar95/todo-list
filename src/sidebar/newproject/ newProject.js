@@ -1,7 +1,6 @@
 import "./newProject.css";
 import { body } from "../..";
-import { createProjectItem } from "../sidebar";
-import { projectItems } from "../sidebar";
+import { createProjectItem, projectItems } from "../sidebar";
 import { createContentProjectItem } from "../../content/createContent";
 
 export default function newProject() {
@@ -64,6 +63,8 @@ export default function newProject() {
         newProjectName.value,
         document.querySelector(".content-projects-container")
       );
+
+      body.style.overflow = "auto";
     }
 
     if (!newProjectName.validity.valid) alert("Enter project name, please");

@@ -13,9 +13,7 @@
 }
 
 #task-content .task-container {
-  padding: 5px;
-  width: 40%;
-  height: 35%;
+  padding: 20px 7px;
   background-color: aliceblue;
   position: fixed;
   top: 36%;

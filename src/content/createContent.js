@@ -1,6 +1,5 @@
-import { navItemDivs } from "../sidebar/sidebar";
+import { navItemDivs, projectItems, projectItemsArr } from "../sidebar/sidebar";
 import { contents, contentDiv } from "./content";
-import { projectItems } from "../sidebar/sidebar";
 import { taskContent } from "./taskcontent/taskContent";
 import createSelectOption from "./taskcontent/createSelectOption";
 import plusSvg from "/src/icons/plus-box.svg";
@@ -20,17 +19,16 @@ const createContentProjectItem = function (item, projectsContainer) {
 };
 
 export function createContent(item) {
-  let projecstsQty;
-
-  if (item.classList.contains("sidebar-icon")) return;
-
   if (item.closest(".nav-item")) {
     navItemDivs.forEach((el) => {
       el.classList.remove("selected");
+      document.querySelector(".nav-item-projects").classList.remove("selected");
     });
 
     contents.forEach((el) => {
-      if (el.classList.contains(`content-${item.textContent}`))
+      if (
+        el.classList.contains(`content-${item.querySelector("p").textContent}`)
+      )
         el.classList.remove("hidden");
       else el.classList.add("hidden");
     });
@@ -50,16 +48,17 @@ export function createContent(item) {
     const contentContainer = document.createElement("div");
     contentContainer.classList.add(
       "content-container",
-      `content-${item.textContent}`
+      `content-${item.querySelector("p").textContent}`
     );
     contentDiv.appendChild(contentContainer);
     contents.push(contentContainer);
 
     const contentHeader = document.createElement("h1");
     contentHeader.classList.add("content-header");
-    contentHeader.textContent = item.textContent;
+    contentHeader.textContent = item.querySelector("p").textContent;
     contentContainer.appendChild(contentHeader);
 
+    let projecstsQty;
     if (item.classList.contains("nav-item-projects")) {
       projecstsQty = document.createElement("div");
       projecstsQty.textContent = `${projectItems.length} projects `;
@@ -70,8 +69,11 @@ export function createContent(item) {
       projectsContainer.classList.add("content-projects-container");
       contentContainer.appendChild(projectsContainer);
 
-      projectItems.forEach((item) => {
-        createContentProjectItem(item, projectsContainer);
+      projectItemsArr.forEach((item) => {
+        createContentProjectItem(
+          item.querySelector("p").textContent,
+          projectsContainer
+        );
       });
 
       return;
@@ -100,14 +102,13 @@ export function createContent(item) {
     addTaskDiv.addEventListener("click", function (e) {
       taskContent();
 
-      if (e.target.tagName === "DIV")
-        createSelectOption(e.target.previousSibling, selectOption);
+      if (e.target.tagName === "DIV") {
+        createSelectOption(e.target, selectOption);
+      }
 
-      if (e.target.tagName === "IMG" || e.target.tagName === "P")
-        createSelectOption(
-          e.target.parentElement.previousSibling,
-          selectOption
-        );
+      if (e.target.tagName === "IMG" || e.target.tagName === "P") {
+        createSelectOption(e.target, selectOption);
+      }
     });
   }
 }

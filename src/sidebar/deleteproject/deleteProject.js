@@ -3,6 +3,7 @@ import { body } from "../..";
 import { createContent } from "../../content/createContent";
 import deleteContent from "../../content/deleteContent";
 import { projectItems } from "../sidebar";
+import { updateTaskQty } from "../../content/taskcontent/updateTaskQty";
 
 export default function deleteProject(deleteIcon) {
   body.style.overflow = "hidden";
@@ -42,6 +43,25 @@ export default function deleteProject(deleteIcon) {
   }
 
   yesBtn.addEventListener("click", function () {
+    const projectName = deleteIcon.previousSibling.previousSibling.textContent;
+
+    document.querySelectorAll(".content-container").forEach((el) => {
+      if (el.classList.contains(`content-${projectName}`)) {
+        const childrenItems = el.querySelector(
+          ".task-items-container"
+        ).children;
+
+        Array.from(childrenItems).forEach((el) => {
+          document.querySelectorAll(".task-item").forEach((el2) => {
+            if (el2.classList.contains(el.classList[1])) {
+              updateTaskQty(el2.querySelector(".delete-icon"));
+              el2.remove();
+            }
+          });
+        });
+      }
+    });
+
     body.style.overflow = "auto";
     deleteIcon.parentElement.remove();
     deleteProject.remove();

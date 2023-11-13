@@ -1,35 +1,24 @@
-import commnetSvg from "/src/icons/comment.svg";
+import commentSvg from "/src/icons/comment.svg";
 import editSvg from "/src/icons/pencil.svg";
 import deleteSvg from "/src/icons/delete.svg";
 import editTaskItem, { editDate } from "./editTaskItem";
 import { taskPriority } from "./taskContent";
-import { formatDistance, subDays } from "date-fns";
+import { updateTaskQty } from "./updateTaskQty";
+import isToday from "date-fns/isToday";
+import { updatePriority } from "./updatePriority";
 
-let taskItemArray = [];
+let formatDate;
 
-export default function addTaskItem(item, contentItem) {
+export default function addTaskItem(item, contentItem, counter) {
+  counter++;
   const taskItem = document.createElement("li");
-  taskItem.classList.add("task-item");
+  taskItem.classList.add("task-item", `task-item-${counter}`);
   taskItem.setAttribute("spellcheck", false);
-  taskItemArray.push(taskItem);
 
   const taskItemContainer = document.querySelectorAll(".task-items-container");
 
   taskItemContainer.forEach((item) => {
-    if (
-      taskItemArray.length > 1 &&
-      item.contains(taskItemArray[taskItemArray.length - 2]) &&
-      contentItem.contains(item)
-    ) {
-      item.insertBefore(
-        taskItemArray[taskItemArray.length - 1],
-        taskItemArray[taskItemArray.length - 2]
-      );
-      return;
-    }
-
-    if (contentItem.contains(item))
-      item.appendChild(taskItemArray[taskItemArray.length - 1]);
+    if (contentItem.contains(item)) item.appendChild(taskItem);
   });
 
   const rightSide = document.createElement("div");
@@ -47,7 +36,7 @@ export default function addTaskItem(item, contentItem) {
 
   const taskTitleBefore = document.createElement("span");
   taskTitleBefore.classList.add("task-title-before");
-  updatePriority(item.priority);
+  updatePriority(item.priority, taskTitleBefore);
   titleContainer.insertBefore(taskTitleBefore, taskTitle);
 
   const taskDescriptionContainter = document.createElement("div");
@@ -55,7 +44,7 @@ export default function addTaskItem(item, contentItem) {
   rightSide.appendChild(taskDescriptionContainter);
 
   const commentIcon = new Image();
-  commentIcon.src = commnetSvg;
+  commentIcon.src = commentSvg;
   commentIcon.classList.add("task-icon", "comment-icon");
   taskDescriptionContainter.appendChild(commentIcon);
 
@@ -65,7 +54,7 @@ export default function addTaskItem(item, contentItem) {
   taskDescriptionContainter.appendChild(taskDescription);
 
   const dateContainer = document.createElement("div");
-  dateContainer.classList.add("date-container");
+  dateContainer.classList.add("date-container", "hidden");
   rightSide.appendChild(dateContainer);
 
   const datepickerToggle = document.createElement("span");
@@ -82,18 +71,18 @@ export default function addTaskItem(item, contentItem) {
   dateContainer.appendChild(datepickerInput);
   datepickerInput.disabled = true;
 
-  console.log(item.dueDate);
-  console.log(
-    formatDistance(subDays(new Date(), 3), new Date(), { addSuffix: true })
-  );
-
+  formatDate = new Intl.DateTimeFormat("en-us", { dateStyle: "long" });
   const datetextInput = document.createElement("input");
   datetextInput.classList.add("datetext-input");
   datetextInput.setAttribute("type", "text");
-  datetextInput.setAttribute(
-    "value",
-    item.dueDate ? `${item.dueDate}` : "No date"
-  );
+
+  if (isToday(new Date(item.dueDate)))
+    datetextInput.setAttribute("value", "Today");
+  else
+    datetextInput.setAttribute(
+      "value",
+      item.dueDate ? `${formatDate.format(new Date(item.dueDate))}` : "No date"
+    );
   dateContainer.appendChild(datetextInput);
 
   const newPriority = taskPriority.cloneNode(true);
@@ -116,14 +105,10 @@ export default function addTaskItem(item, contentItem) {
   deleteIcon.src = deleteSvg;
   leftSide.appendChild(deleteIcon);
 
-  function updatePriority(priority) {
-    if (+priority === 4) taskTitleBefore.style.backgroundColor = "black";
-    if (+priority === 3) taskTitleBefore.style.backgroundColor = "blue";
-    if (+priority === 2) taskTitleBefore.style.backgroundColor = "orange";
-    if (+priority === 1) taskTitleBefore.style.backgroundColor = "red";
-  }
+  updateTaskQty(item.project);
 
   function classToggle() {
+    dateContainer.classList.toggle("hidden");
     newPriority.classList.toggle("hidden");
     editIcon.classList.toggle("hidden");
     deleteIcon.classList.toggle("hidden");
@@ -143,10 +128,16 @@ export default function addTaskItem(item, contentItem) {
   });
 
   deleteIcon.addEventListener("click", function (e) {
+    updateTaskQty(e.target);
     e.target.closest(".task-item").remove();
-    taskItemArray = taskItemArray.filter(
-      (el) => el !== e.target.closest(".task-item")
-    );
+    document.querySelectorAll(".task-item").forEach((item) => {
+      if (
+        item.classList.contains(e.target.closest(".task-item").classList[1])
+      ) {
+        updateTaskQty(item.querySelector(".delete-icon"));
+        item.remove();
+      }
+    });
   });
 
   editIcon.addEventListener("click", function (e) {
@@ -161,10 +152,12 @@ export default function addTaskItem(item, contentItem) {
   });
 
   datepickerInput.addEventListener("change", function () {
-    editDate(datepickerInput, datetextInput);
+    editDate(datepickerInput.value, datetextInput);
   });
 
   newPriority.addEventListener("change", function () {
-    updatePriority(newPriority.value);
+    updatePriority(newPriority.value, taskTitleBefore);
   });
 }
+
+export { formatDate };
