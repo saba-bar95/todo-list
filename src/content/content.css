@@ -135,7 +135,6 @@
 
 #content-div .task-item--title {
   font-family: "Frenstyle";
-  text-transform: capitalize;
   font-size: 0.9em;
   outline: none;
 }
