@@ -10,10 +10,11 @@ export function updateTaskQty(value, acc = 0) {
     if (
       el.closest(`.nav-item-${value}`) ||
       el.closest(`.project-item-${value}`)
-    )
+    ) {
       el.textContent =
         document
           .querySelector(`.content-${value}`)
           .querySelector(".task-items-container").childElementCount - counter;
+    }
   });
 }

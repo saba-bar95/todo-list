@@ -1,6 +1,6 @@
+import { validateDate, taskItem as newTaskItem } from "../..";
 import saveSvg from "/src/icons/content-save.svg";
 import editSvg from "/src/icons/pencil.svg";
-import { validateDate, taskItem as newTaskItem } from "./taskContent";
 import addTaskItem, { formatDate } from "./addTaskItem";
 import { isToday } from "date-fns";
 import { updateTaskQty } from "./updateTaskQty";
@@ -42,19 +42,36 @@ export default function editTaskItem(
     datepickerInput.disabled = true;
     newPriority.disabled = true;
 
+    const currentTasks = JSON.parse(localStorage.getItem("tasks"));
     const currentItem = event.target.closest(".task-item");
+
     const currentTitle =
       currentItem.querySelector(".task-item--title").textContent;
     const currentDescription = currentItem.querySelector(
       ".task-item--description"
     ).textContent;
-    const currentPriority = currentItem.querySelector(".priority-select").value;
-    const currentDate = currentItem.querySelector(".datepicker-input").value;
+    const currentPriority = currentItem.querySelector(".new-priority").value;
+
+    let currentDate;
+    if (!currentItem.querySelector(".datepicker-input").value)
+      currentDate = new Date().toISOString().slice(0, 10);
+    else currentDate = currentItem.querySelector(".datepicker-input").value;
     const currentDateText = currentItem.querySelector(".datetext-input").value;
+    const counter = +currentItem.classList[1].slice(11);
+
+    currentTasks.forEach((task) => {
+      if (task.counter === counter) {
+        task.title = currentTitle;
+        task.description = currentDescription;
+        task.priority = currentPriority;
+        task.dueDate = currentDate;
+      }
+    });
+    localStorage.setItem("tasks", JSON.stringify(currentTasks));
 
     document.querySelectorAll(".task-item").forEach((item) => {
       const currentItemQty = document.querySelectorAll(
-        `.task-item-${currentItem.classList[1].slice(-1)}`
+        `.task-item--${counter}`
       );
 
       if (item === currentItem && currentItemQty.length === 1) {
@@ -64,19 +81,24 @@ export default function editTaskItem(
             currentDescription,
             currentDate,
             currentPriority,
-            "today"
+            "today",
+            counter
           );
-          const counter = currentItem.classList[1].slice(-1) - 1;
           addTaskItem(
             todayItem,
             document.querySelector(".content-today"),
             counter
           );
+          currentTasks.push(todayItem);
+          localStorage.setItem("tasks", JSON.stringify(currentTasks));
         }
         return;
       }
 
-      if (item.classList.contains(currentItem.classList[1])) {
+      if (
+        item.classList.contains(currentItem.classList[1]) &&
+        item !== currentItem
+      ) {
         if (
           currentItem.querySelector(".datepicker-input").value &&
           !isToday(
@@ -87,15 +109,21 @@ export default function editTaskItem(
             item.closest(".content-container").querySelector("h1").textContent,
             1
           );
+
+          const filteredTask = currentTasks.filter(
+            (task) => task.project !== "today"
+          );
+
+          localStorage.setItem("tasks", JSON.stringify(filteredTask));
           item.remove();
         }
 
         item.querySelector(".task-item--title").textContent = currentTitle;
         item.querySelector(".task-item--description").textContent =
           currentDescription;
-        item.querySelector(".priority-select").value = currentPriority;
+        item.querySelector(".new-priority").value = currentPriority;
         updatePriority(
-          item.querySelector(".priority-select").value,
+          item.querySelector(".new-priority").value,
           item.querySelector(".task-title-before")
         );
       }
@@ -109,8 +137,9 @@ export function editDate(datepickerInput, datetextInput) {
     return;
   }
   if (isToday(new Date(datepickerInput))) datetextInput.value = "Today";
-  else
+  else {
     validateDate(datepickerInput)
       ? (datetextInput.value = formatDate.format(new Date(datepickerInput)))
       : (datetextInput.value = "No date");
+  }
 }

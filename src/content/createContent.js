@@ -10,6 +10,7 @@ const createContentProjectItem = function (item, projectsContainer) {
   projectItem.textContent = item;
   projectsContainer.appendChild(projectItem);
 
+  createContent(document.querySelector(`.project-item-${item}`));
   projectItem.addEventListener("click", function () {
     document.querySelectorAll(".project-item").forEach((el) => {
       if (el.classList.contains(`project-item-${projectItem.textContent}`))
@@ -34,10 +35,16 @@ export function createContent(item) {
     });
 
     if (item.classList.contains("nav-item-projects")) {
+      let projects;
+      if (document.querySelector(".content-projects-container")) {
+        projects = document.querySelector(
+          ".content-projects-container"
+        ).childElementCount;
+      }
       if (document.querySelector(".projects-qty")) {
         document.querySelector(
           ".projects-qty"
-        ).textContent = `${projectItems.length} projects`;
+        ).textContent = `${projects} projects`;
       }
     }
 
@@ -75,7 +82,6 @@ export function createContent(item) {
           projectsContainer
         );
       });
-
       return;
     }
 
@@ -102,13 +108,11 @@ export function createContent(item) {
     addTaskDiv.addEventListener("click", function (e) {
       taskContent();
 
-      if (e.target.tagName === "DIV") {
+      if (e.target.tagName === "DIV")
         createSelectOption(e.target, selectOption);
-      }
 
-      if (e.target.tagName === "IMG" || e.target.tagName === "P") {
+      if (e.target.tagName === "IMG" || e.target.tagName === "P")
         createSelectOption(e.target, selectOption);
-      }
     });
   }
 }

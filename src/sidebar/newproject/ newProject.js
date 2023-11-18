@@ -1,6 +1,6 @@
 import "./newProject.css";
 import { body } from "../..";
-import { createProjectItem, projectItems } from "../sidebar";
+import { createProjectItem } from "../sidebar";
 import { createContentProjectItem } from "../../content/createContent";
 
 export default function newProject() {
@@ -44,6 +44,8 @@ export default function newProject() {
     });
   }
 
+  const projectItems = JSON.parse(localStorage.getItem("projectItems"));
+
   addNewProjectBtn.addEventListener("click", function () {
     if (checkElement(newProjectName.value, projectItems)) {
       alert("This project already exist");
@@ -63,6 +65,13 @@ export default function newProject() {
         newProjectName.value,
         document.querySelector(".content-projects-container")
       );
+
+      const storageProjectItems = JSON.parse(
+        localStorage.getItem("projectItems")
+      );
+
+      storageProjectItems.push(newProjectName.value);
+      localStorage.setItem("projectItems", JSON.stringify(storageProjectItems));
 
       body.style.overflow = "auto";
     }

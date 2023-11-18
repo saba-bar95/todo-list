@@ -1,7 +1,6 @@
 import "./content.css";
-import { sidebarDiv } from "../sidebar/sidebar";
+import { sidebarDiv, navItemDivs } from "../sidebar/sidebar";
 import { createContent } from "./createContent";
-import { navItemDivs } from "../sidebar/sidebar";
 
 let contentDiv;
 let contents = [];
@@ -22,6 +21,8 @@ export function content() {
       createContent(e.target.closest(".nav-item"));
     else createContent(e.target);
   });
+
+  createContent(document.querySelector(".nav-item-inbox"));
 
   return contentDiv;
 }

@@ -10,8 +10,8 @@ let sidebarDiv;
 let leftIcon;
 let plusIcon;
 let createProjectItem;
-let navItemDivs = [];
 let projectItems;
+let navItemDivs = [];
 let projectItemsArr = [];
 
 export function sidebar() {
@@ -87,8 +87,6 @@ export function sidebar() {
   projectContainer.classList.add("projects-container");
   sidebarDiv.appendChild(projectContainer);
 
-  projectItems = ["work", "home", "gym"];
-
   createProjectItem = function (el) {
     const projectItem = document.createElement("li");
     projectItem.classList.add("nav-item", "project-item", `project-item-${el}`);
@@ -128,9 +126,19 @@ export function sidebar() {
     projectItemsArr.push(projectItem);
   };
 
-  projectItems.forEach((el) => {
-    createProjectItem(el);
-  });
+  projectItems = ["work", "home", "gym"];
+
+  const storageProjectItems = JSON.parse(localStorage.getItem("projectItems"));
+
+  if (storageProjectItems)
+    storageProjectItems.forEach((el) => {
+      createProjectItem(el);
+    });
+  else
+    projectItems.forEach((el) => {
+      createProjectItem(el);
+      localStorage.setItem("projectItems", JSON.stringify(projectItems));
+    });
 
   return sidebarDiv;
 }

@@ -1,13 +1,18 @@
-import { body } from "../..";
+import { body, validateDate, taskItem } from "../..";
 import "./taskContent.css";
 import createSelectOption from "./createSelectOption";
 import addTaskItem from "./addTaskItem";
 import { isToday } from "date-fns";
 
-let validateDate;
 let taskPriority;
-let counter = 0;
-let taskItem;
+let counter;
+
+if (
+  JSON.parse(localStorage.getItem("tasks")) &&
+  JSON.parse(localStorage.getItem("tasks")).length > 0
+) {
+  counter = JSON.parse(localStorage.getItem("counter"));
+} else counter = 0;
 
 export function taskContent() {
   const taskContent = document.createElement("div");
@@ -45,14 +50,6 @@ export function taskContent() {
   taskDate.classList.add("task-date");
   taskDate.value = dateString;
   wrapperDiv.appendChild(taskDate);
-
-  validateDate = function (taskDate) {
-    if (!taskDate) return true;
-    if (taskDate < dateString) {
-      alert("You cannot enter an old date. Please enter a valid date.");
-      return false;
-    } else return true;
-  };
 
   taskPriority = document.createElement("select");
   taskPriority.classList.add("priority-select");
@@ -119,20 +116,13 @@ export function taskContent() {
     }
   });
 
-  taskItem = function (title, description, dueDate, priority, project) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.project = project;
-  };
-
   addBtn.addEventListener("click", function () {
     if (taskForm.checkValidity() && validateDate(taskDate.value)) {
       counter++;
+      localStorage.setItem("counter", JSON.stringify(counter));
+
       taskContent.remove();
       const contentItems = document.querySelectorAll(".content-container");
-
       contentItems.forEach((el) => {
         if (el.classList.contains(`content-${selectProject.value}`)) {
           const newTaskItem = new taskItem(
@@ -140,9 +130,14 @@ export function taskContent() {
             taskDescription.value,
             taskDate.value,
             taskPriority.value,
-            selectProject.value
+            selectProject.value,
+            counter
           );
+
           addTaskItem(newTaskItem, el, counter);
+          const currentTasks = JSON.parse(localStorage.getItem("tasks"));
+          currentTasks.push(newTaskItem);
+          localStorage.setItem("tasks", JSON.stringify(currentTasks));
 
           if (isToday(new Date(taskDate.value))) {
             newTaskItem.project = "today";
@@ -151,6 +146,9 @@ export function taskContent() {
               document.querySelector(".content-today"),
               counter
             );
+            const currentTasks = JSON.parse(localStorage.getItem("tasks"));
+            currentTasks.push(newTaskItem);
+            localStorage.setItem("tasks", JSON.stringify(currentTasks));
           }
         }
       });
@@ -161,5 +159,3 @@ export function taskContent() {
     if (!e.target.closest(".task-container")) taskContent.remove();
   });
 }
-
-export { validateDate, taskPriority, taskItem };

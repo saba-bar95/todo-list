@@ -2,7 +2,6 @@ import "./deleteProject.css";
 import { body } from "../..";
 import { createContent } from "../../content/createContent";
 import deleteContent from "../../content/deleteContent";
-import { projectItems } from "../sidebar";
 import { updateTaskQty } from "../../content/taskcontent/updateTaskQty";
 
 export default function deleteProject(deleteIcon) {
@@ -35,6 +34,8 @@ export default function deleteProject(deleteIcon) {
   noBtn.textContent = "no";
   btnsContainer.appendChild(noBtn);
 
+  const projectItems = JSON.parse(localStorage.getItem("projectItems"));
+
   function removeElement(array, elementToRemove) {
     const index = array.indexOf(elementToRemove);
     if (index !== -1) {
@@ -44,7 +45,6 @@ export default function deleteProject(deleteIcon) {
 
   yesBtn.addEventListener("click", function () {
     const projectName = deleteIcon.previousSibling.previousSibling.textContent;
-
     document.querySelectorAll(".content-container").forEach((el) => {
       if (el.classList.contains(`content-${projectName}`)) {
         const childrenItems = el.querySelector(
@@ -67,21 +67,42 @@ export default function deleteProject(deleteIcon) {
     deleteProject.remove();
     createContent(document.querySelector(".nav-item-inbox"));
     deleteContent(deleteIcon.parentElement);
-    if (projectItems.includes(deleteIcon.parentElement.textContent))
-      removeElement(projectItems, deleteIcon.parentElement.textContent);
 
-    const contentProjectItems = document.querySelectorAll(
-      ".content-project-item"
+    if (projectItems.includes(projectName)) {
+      removeElement(projectItems, projectName);
+    }
+
+    document.querySelectorAll(".content-project-item").forEach((el) => {
+      if (el.classList.contains(`project-item-${projectName}`)) el.remove();
+    });
+
+    document.querySelector(`.content-${projectName}`).remove();
+
+    const storageProjectItems = JSON.parse(
+      localStorage.getItem("projectItems")
     );
 
-    contentProjectItems.forEach((el) => {
-      if (
-        el.classList.contains(
-          `project-item-${deleteIcon.parentElement.textContent}`
-        )
-      )
-        el.remove();
+    const indexToRemove = storageProjectItems.indexOf(projectName);
+
+    if (indexToRemove > -1) {
+      storageProjectItems.splice(indexToRemove, 1);
+    }
+
+    localStorage.setItem("projectItems", JSON.stringify(storageProjectItems));
+
+    const currentTasks = JSON.parse(localStorage.getItem("tasks"));
+    const taskNumbers = new Set([]);
+
+    const filteredProjectTasks = currentTasks.filter((el) => {
+      if (el.project === projectName) taskNumbers.add(el.counter);
+      return el.project !== projectName;
     });
+
+    const filteredTodayTasks = filteredProjectTasks.filter((element) => {
+      if (!taskNumbers.has(element.counter)) return element;
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(filteredTodayTasks));
   });
 
   noBtn.addEventListener("click", function () {

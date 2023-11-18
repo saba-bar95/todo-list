@@ -2,17 +2,16 @@ import commentSvg from "/src/icons/comment.svg";
 import editSvg from "/src/icons/pencil.svg";
 import deleteSvg from "/src/icons/delete.svg";
 import editTaskItem, { editDate } from "./editTaskItem";
-import { taskPriority } from "./taskContent";
 import { updateTaskQty } from "./updateTaskQty";
 import isToday from "date-fns/isToday";
 import { updatePriority } from "./updatePriority";
 
 let formatDate;
+let option;
 
 export default function addTaskItem(item, contentItem, counter) {
-  counter++;
   const taskItem = document.createElement("li");
-  taskItem.classList.add("task-item", `task-item-${counter}`);
+  taskItem.classList.add("task-item", `task-item--${counter}`);
   taskItem.setAttribute("spellcheck", false);
 
   const taskItemContainer = document.querySelectorAll(".task-items-container");
@@ -85,10 +84,22 @@ export default function addTaskItem(item, contentItem, counter) {
     );
   dateContainer.appendChild(datetextInput);
 
-  const newPriority = taskPriority.cloneNode(true);
+  const newPriority = document.createElement("select");
   newPriority.classList.add("new-priority", "hidden");
   rightSide.appendChild(newPriority);
   newPriority.disabled = true;
+
+  for (let i = 1; i < 5; i++) {
+    option = document.createElement("option");
+    option.classList.add("select-option", `option-${i}`);
+    option.setAttribute("value", i);
+    option.textContent = `Priority ${i}`;
+    newPriority.appendChild(option);
+  }
+
+  newPriority
+    .querySelector(`.option-${item.priority}`)
+    .setAttribute("selected", "");
 
   const leftSide = document.createElement("div");
   leftSide.classList.add("task-item--leftside");
@@ -129,13 +140,24 @@ export default function addTaskItem(item, contentItem, counter) {
 
   deleteIcon.addEventListener("click", function (e) {
     updateTaskQty(e.target);
-    e.target.closest(".task-item").remove();
+    const currentTask = e.target.closest(".task-item");
+    currentTask.remove();
+    const currentTaskNumber = +currentTask.classList[1].slice(11);
+    const currentTasks = JSON.parse(localStorage.getItem("tasks"));
+
+    const filteredTask = currentTasks.filter((task) => {
+      return +task.counter !== currentTaskNumber;
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(filteredTask));
+
     document.querySelectorAll(".task-item").forEach((item) => {
       if (
         item.classList.contains(e.target.closest(".task-item").classList[1])
       ) {
-        updateTaskQty(item.querySelector(".delete-icon"));
-        item.remove();
+        const todayTask = item;
+        updateTaskQty(todayTask.querySelector(".delete-icon"));
+        todayTask.remove();
       }
     });
   });
