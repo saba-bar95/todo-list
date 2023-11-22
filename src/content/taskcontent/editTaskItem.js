@@ -110,11 +110,19 @@ export default function editTaskItem(
             1
           );
 
-          const filteredTask = currentTasks.filter(
-            (task) => task.project !== "today"
-          );
+          function removeElement(array, elementToRemove) {
+            const index = array.indexOf(elementToRemove);
+            if (index !== -1) {
+              array.splice(index, 1);
+            }
+          }
 
-          localStorage.setItem("tasks", JSON.stringify(filteredTask));
+          currentTasks.forEach((task) => {
+            if (task.project === "today" && task.counter === counter)
+              removeElement(currentTasks, task);
+          });
+
+          localStorage.setItem("tasks", JSON.stringify(currentTasks));
           item.remove();
         }
 
