@@ -2,7 +2,7 @@
 
 ### This project is done as part of the [Odin course](https://www.theodinproject.com/dashboard)
 
-This application allows you to:
+You can do the following:
 
 - Remove or add a new project
 - View or hide all projects
