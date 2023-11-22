@@ -12,7 +12,8 @@ export default function editTaskItem(
   taskTitle,
   editIcon,
   datepickerInput,
-  newPriority
+  newPriority,
+  dueDate
 ) {
   document.querySelectorAll(".editable-item").forEach((item) => {
     if (event.target.closest(".task-item").contains(item)) {
@@ -51,13 +52,13 @@ export default function editTaskItem(
       ".task-item--description"
     ).textContent;
     const currentPriority = currentItem.querySelector(".new-priority").value;
+    const currentDateText = currentItem.querySelector(".datetext-input").value;
+    const counter = +currentItem.classList[1].slice(11);
 
     let currentDate;
     if (!currentItem.querySelector(".datepicker-input").value)
-      currentDate = new Date().toISOString().slice(0, 10);
+      currentDate = dueDate;
     else currentDate = currentItem.querySelector(".datepicker-input").value;
-    const currentDateText = currentItem.querySelector(".datetext-input").value;
-    const counter = +currentItem.classList[1].slice(11);
 
     currentTasks.forEach((task) => {
       if (task.counter === counter) {

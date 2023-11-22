@@ -169,7 +169,8 @@ export default function addTaskItem(item, contentItem, counter) {
       taskTitle,
       editIcon,
       datepickerInput,
-      newPriority
+      newPriority,
+      item.dueDate
     );
   });
 
